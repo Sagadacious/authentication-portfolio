@@ -5,7 +5,6 @@ pipelines:
     main:
       - step:
           name: "Build and Deploy Frontend (Cloudflare)"
-          # Muted for the time being
           # condition:
           #   changesets:
           #     includePaths:
@@ -15,7 +14,7 @@ pipelines:
             - corepack enable               # <--- This is the key line
             - corepack prepare pnpm@latest --activate
             - pnpm install
-            - pnpm deploy --filter=frontend # Deploys to Cloudflare
+            - pnpm turbo deploy --filter=frontend # Deploys to Cloudflare
           services:
             - docker
 
