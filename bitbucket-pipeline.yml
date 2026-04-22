@@ -1,0 +1,31 @@
+image: node:20 # Use the latest LTS
+
+pipelines:
+  branches:
+    main:
+      - step:
+          name: "Build and Deploy Frontend (Cloudflare)"
+          condition:
+            changesets:
+              includePaths:
+                - "apps/frontend/**"
+                - "packages/**"
+          script:
+            - pnpm install
+            - pnpm turbo build --filter=frontend
+            - npx wrangler deploy --name authentication-portfolio # Deploys to Cloudflare
+          services:
+            - docker
+
+      - step:
+          name: "Deploy Backend (Render)"
+          condition:
+            changesets:
+              includePaths:
+                - "apps/backend/**"
+                - "packages/**"
+          script:
+            - pnpm install
+            - pnpm turbo build --filter=backend
+            # Render usually uses a Deploy Hook (Webhook) for free tiers
+            - curl -X POST $RENDER_DEPLOY_HOOK_URL
