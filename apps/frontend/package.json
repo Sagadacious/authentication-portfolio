@@ -16,7 +16,7 @@
     "start": "node --import ./.output/server/instrument.server.mjs .output/server/index.mjs",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "deploy": "wrangler deploy"
+    "deploy": "npx wrangler deploy"
   },
   "dependencies": {
     "@faker-js/faker": "^10.3.0",
