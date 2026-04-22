@@ -5,26 +5,27 @@ pipelines:
     main:
       - step:
           name: "Build and Deploy Frontend (Cloudflare)"
-          condition:
-            changesets:
-              includePaths:
-                - "apps/frontend/**"
-                - "packages/**"
+          # Muted for the time being
+          # condition:
+          #   changesets:
+          #     includePaths:
+          #       - "apps/frontend/**"
+          #       - "packages/**"
           script:
             - corepack enable               # <--- This is the key line
             - corepack prepare pnpm@latest --activate
             - pnpm install
-            - pnpm turbo deploy --filter=frontend # Deploys to Cloudflare
+            - pnpm deploy --filter=frontend # Deploys to Cloudflare
           services:
             - docker
 
       - step:
           name: "Deploy Backend (Render)"
-          condition:
-            changesets:
-              includePaths:
-                - "apps/backend/**"
-                - "packages/**"
+          # condition:
+          #   changesets:
+          #     includePaths:
+          #       - "apps/backend/**"
+          #       - "packages/**"
           script:
             - corepack enable
             - corepack prepare pnpm@latest --activate
