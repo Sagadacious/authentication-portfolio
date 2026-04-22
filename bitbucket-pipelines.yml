@@ -11,6 +11,8 @@ pipelines:
                 - "apps/frontend/**"
                 - "packages/**"
           script:
+            - corepack enable               # <--- This is the key line
+            - corepack prepare pnpm@latest --activate
             - pnpm install
             - pnpm turbo build --filter=frontend
             - npx wrangler deploy --name authentication-portfolio # Deploys to Cloudflare
@@ -25,6 +27,8 @@ pipelines:
                 - "apps/backend/**"
                 - "packages/**"
           script:
+            - corepack enable
+            - corepack prepare pnpm@latest --activate
             - pnpm install
             - pnpm turbo build --filter=backend
             # Render usually uses a Deploy Hook (Webhook) for free tiers
