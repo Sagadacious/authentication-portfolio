@@ -14,8 +14,7 @@ pipelines:
             - corepack enable               # <--- This is the key line
             - corepack prepare pnpm@latest --activate
             - pnpm install
-            - pnpm turbo build --filter=frontend
-            - npx wrangler deploy --name authentication-portfolio # Deploys to Cloudflare
+            - pnpm turbo deploy --filter=frontend # Deploys to Cloudflare
           services:
             - docker
 
