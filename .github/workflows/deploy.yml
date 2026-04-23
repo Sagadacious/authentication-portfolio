@@ -4,7 +4,26 @@ on:
     branches: [main, staging]
 
 jobs:
+  testing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install
+        
+      - name: Lint check
+        run: pnpm turbo lint
+
   deploy:
+    needs: testing
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,9 +35,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-
-      - name: Lint Check
-        run: pnpm lint
       
       - name: Deploy Frontend (Cloudflare)
         run: |
