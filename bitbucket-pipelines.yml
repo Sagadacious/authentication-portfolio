@@ -5,11 +5,11 @@ pipelines:
     staging:
       - step:
           name: "Deploy Staging Frontend"
-          condition:
-            changesets:
-              includePaths:
-                - "apps/frontend/**"
-                - "packages/**"
+          # condition:
+          #   changesets:
+          #     includePaths:
+          #       - "apps/frontend/**"
+          #       - "packages/**"
           script:
             - corepack enable               # <--- This is the key line
             - corepack prepare pnpm@latest --activate
@@ -20,11 +20,11 @@ pipelines:
 
       - step:
           name: "Deploy Staging Backend"
-          condition:
-            changesets:
-              includePaths:
-                - "apps/backend/**"
-                - "packages/**"
+          # condition:
+          #   changesets:
+          #     includePaths:
+          #       - "apps/backend/**"
+          #       - "packages/**"
           script:
             - corepack enable
             - corepack prepare pnpm@latest --activate
@@ -36,11 +36,11 @@ pipelines:
     main:
       - step:
           name: "Deploy Production Frontend"
-          condition:
-            changesets:
-              includePaths:
-                - "apps/frontend/**"
-                - "packages/**"
+          # condition:
+          #   changesets:
+          #     includePaths:
+          #       - "apps/frontend/**"
+          #       - "packages/**"
           script:
             - corepack enable               # <--- This is the key line
             - corepack prepare pnpm@latest --activate
@@ -51,11 +51,11 @@ pipelines:
 
       - step:
           name: "Deploy Production Backend"
-          condition:
-            changesets:
-              includePaths:
-                - "apps/backend/**"
-                - "packages/**"
+          # condition:
+          #   changesets:
+          #     includePaths:
+          #       - "apps/backend/**"
+          #       - "packages/**"
           script:
             - corepack enable
             - corepack prepare pnpm@latest --activate
