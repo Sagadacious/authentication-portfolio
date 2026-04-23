@@ -31,13 +31,13 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
-      - name: Build backend
+      - name: Build Backend
         run: pnpm turbo build --filter=authentication-api --cache=locale:r
 
-      - name: Deploy backend (Render)
+      - name: Deploy Backend (Render)
         run: |
           if [[ "${{ github.ref_name }}" == "staging" ]]; then
-            curl -X POST ${{ secrets.RENDER_STAGING_HOOK }}
+            curl -X POST ${{ secrets.RENDER_DEPLOY_STAGING_HOOK_URL }}
           else
-            curl -X POST ${{ secrets.RENDER_PROD_HOOK }}
+            curl -X POST ${{ secrets.RENDER_DEPLOY_PROD_HOOK_URL }}
           fi
