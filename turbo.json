@@ -21,7 +21,7 @@
       "dependsOn": ["^build"],
       "cache": false,
       // Don't forget to update whenever a new ENV is added
-      "env": ["CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID", "RENDER_DEPLOY_HOOK_URL"] 
+      "env": ["CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID", "RENDER_DEPLOY_STAGING_HOOK_URL", "RENDER_DEPLOY_PROD_HOOK_URL"] 
     }
   }
 }
