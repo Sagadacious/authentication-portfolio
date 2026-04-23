@@ -24,14 +24,17 @@ jobs:
         run: |
           # Use logic to determine name based on branch
           if [[ "${{ github.ref_name }}" == "staging" ]]; then
-            pnpm turbo deploy --filter=frontend --no-cache -- --name authentication-staging
+            pnpm turbo deploy --filter=authentication --no-cache -- --name authentication-staging
           else
-            pnpm turbo deploy --filter=frontend --no-cache -- --name authentication
+            pnpm turbo deploy --filter=authentication --no-cache -- --name authentication
           fi
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
-      - name: Trigger Render (Backend)
+      - name: Build backend
+        run: pnpm turbo build --filter=authentication-api --no-cache
+
+      - name: Deploy backend (Render)
         run: |
           if [[ "${{ github.ref_name }}" == "staging" ]]; then
             curl -X POST ${{ secrets.RENDER_STAGING_HOOK }}
