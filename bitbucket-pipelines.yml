@@ -14,7 +14,7 @@ pipelines:
             - corepack enable               # <--- This is the key line
             - corepack prepare pnpm@latest --activate
             - pnpm install
-            - pnpm turbo deploy --filter=frontend --no-cache -- --name=authentication-staging # Deploys to Cloudflare
+            - pnpm turbo deploy --filter=authentication --no-cache -- --name=authentication-staging # Deploys to Cloudflare
           services:
             - docker
 
@@ -29,7 +29,7 @@ pipelines:
             - corepack enable
             - corepack prepare pnpm@latest --activate
             - pnpm install
-            - pnpm turbo build --filter=backend
+            - pnpm turbo build --filter=authentication-api
             # Render usually uses a Deploy Hook (Webhook) for free tiers
             - curl -X POST $RENDER_DEPLOY_STAGING_HOOK_URL
 
@@ -45,7 +45,7 @@ pipelines:
             - corepack enable               # <--- This is the key line
             - corepack prepare pnpm@latest --activate
             - pnpm install
-            - pnpm turbo deploy --filter=frontend --no-cache -- --name=authentication # Deploys to Cloudflare
+            - pnpm turbo deploy --filter=authentication --no-cache -- --name=authentication # Deploys to Cloudflare
           services:
             - docker
 
@@ -60,6 +60,6 @@ pipelines:
             - corepack enable
             - corepack prepare pnpm@latest --activate
             - pnpm install
-            - pnpm turbo build --filter=backend
+            - pnpm turbo build --filter=authentication-api
             # Render usually uses a Deploy Hook (Webhook) for free tiers
             - curl -X POST $RENDER_DEPLOY_PROD_HOOK_URL
