@@ -24,15 +24,15 @@ jobs:
         run: |
           # Use logic to determine name based on branch
           if [[ "${{ github.ref_name }}" == "staging" ]]; then
-            pnpm turbo deploy --filter=authentication --no-cache -- --name authentication-staging
+            pnpm turbo deploy --filter=authentication --cache=locale:r -- --name authentication-staging
           else
-            pnpm turbo deploy --filter=authentication --no-cache -- --name authentication
+            pnpm turbo deploy --filter=authentication --cache=locale:r -- --name authentication
           fi
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
       - name: Build backend
-        run: pnpm turbo build --filter=authentication-api --no-cache
+        run: pnpm turbo build --filter=authentication-api --cache=locale:r
 
       - name: Deploy backend (Render)
         run: |
