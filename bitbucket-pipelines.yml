@@ -14,7 +14,7 @@ pipelines:
             - corepack enable               # <--- This is the key line
             - corepack prepare pnpm@latest --activate
             - pnpm install
-            - pnpm turbo deploy --filter=frontend --no-cache --name=authentication-staging # Deploys to Cloudflare
+            - pnpm turbo deploy --filter=frontend --no-cache -- --name=authentication-staging # Deploys to Cloudflare
           services:
             - docker
 
@@ -45,7 +45,7 @@ pipelines:
             - corepack enable               # <--- This is the key line
             - corepack prepare pnpm@latest --activate
             - pnpm install
-            - pnpm turbo deploy --filter=frontend --no-cache --name=authentication # Deploys to Cloudflare
+            - pnpm turbo deploy --filter=frontend --no-cache -- --name=authentication # Deploys to Cloudflare
           services:
             - docker
 
