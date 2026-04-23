@@ -1,0 +1,65 @@
+name: Deploy Portfolio
+on:
+  push:
+    branches: [main, staging]
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Node & pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install
+        
+      - name: Lint check
+        run: pnpm turbo lint
+
+  deploy:
+    needs: testing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Node & pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+      
+      - name: Deploy Frontend (Cloudflare)
+        run: |
+          # Use logic to determine name based on branch
+          if [[ "${{ github.ref_name }}" == "staging" ]]; then
+            pnpm turbo deploy --filter=authentication --cache=local:r -- --name authentication-staging
+          else
+            pnpm turbo deploy --filter=authentication --cache=local:r -- --name authentication
+          fi
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Build Backend
+        run: pnpm turbo build --filter=authentication-api --cache=local:r
+
+      - name: Deploy Backend (Render)
+        run: |
+          if [[ "${{ github.ref_name }}" == "staging" ]]; then
+            curl -X POST ${{ secrets.RENDER_DEPLOY_STAGING_HOOK_URL }}
+          else
+            curl -X POST ${{ secrets.RENDER_DEPLOY_PROD_HOOK_URL }}
+          fi
