@@ -29,7 +29,7 @@ pipelines:
             - corepack enable
             - corepack prepare pnpm@latest --activate
             - pnpm install
-            - pnpm turbo build --filter=authentication-api
+            - pnpm turbo build --filter=authentication-api --no-cache
             # Render usually uses a Deploy Hook (Webhook) for free tiers
             - curl -X POST $RENDER_DEPLOY_STAGING_HOOK_URL
 
@@ -60,6 +60,6 @@ pipelines:
             - corepack enable
             - corepack prepare pnpm@latest --activate
             - pnpm install
-            - pnpm turbo build --filter=authentication-api
+            - pnpm turbo build --filter=authentication-api --no-cache
             # Render usually uses a Deploy Hook (Webhook) for free tiers
             - curl -X POST $RENDER_DEPLOY_PROD_HOOK_URL
