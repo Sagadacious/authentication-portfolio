@@ -1,0 +1,40 @@
+name: Deploy Portfolio
+on:
+  push:
+    branches: [main, staging]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Node & pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Lint Check
+        run: pnpm lint
+      
+      - name: Deploy Frontend (Cloudflare)
+        run: |
+          # Use logic to determine name based on branch
+          if [[ "${{ github.ref_name }}" == "staging" ]]; then
+            pnpm turbo deploy --filter=frontend --no-cache -- --name authentication-staging
+          else
+            pnpm turbo deploy --filter=frontend --no-cache -- --name authentication
+          fi
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Trigger Render (Backend)
+        run: |
+          if [[ "${{ github.ref_name }}" == "staging" ]]; then
+            curl -X POST ${{ secrets.RENDER_STAGING_HOOK }}
+          else
+            curl -X POST ${{ secrets.RENDER_PROD_HOOK }}
+          fi
