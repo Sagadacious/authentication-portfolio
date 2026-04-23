@@ -14,7 +14,6 @@ pipelines:
             - corepack enable               # <--- This is the key line
             - corepack prepare pnpm@latest --activate
             - pnpm install
-            - if [ -z "$CLOUDFLARE_API_TOKEN" ]; then echo "TOKEN IS MISSING"; else echo "TOKEN IS SET"; fi
             - pnpm turbo deploy --filter=frontend --no-cache # Deploys to Cloudflare
           services:
             - docker
