@@ -14,7 +14,7 @@ pipelines:
             - corepack enable               # <--- This is the key line
             - corepack prepare pnpm@latest --activate
             - pnpm install
-            - CLOUDFLARE_API_TOKEN=$CLOUDFLARE_API_TOKEN pnpm turbo deploy --filter=frontend --env-mode=loose
+            - pnpm turbo deploy --filter=frontend --env-mode=loose # Deploys to Cloudflare
           services:
             - docker
 
