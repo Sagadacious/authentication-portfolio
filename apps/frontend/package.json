@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "authentication",
   "private": true,
   "type": "module",
   "imports": {
